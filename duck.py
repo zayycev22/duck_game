@@ -5,6 +5,7 @@ import random
 import time
 from pygame import *
 import threading
+import pricel
 
 pygame.init()  # инициализация
 display = pygame.display.set_mode((800, 500))  # создание окна
