@@ -1,18 +1,19 @@
-# -*- coding: utf-8 -*-
 import pygame
 
-pygame.init()  # инициализация
+pygame.init()
 
 done = False
-while not done:  # главный цикл программы
+
+while not done:
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
             done = True
-        if event.type == pygame.KEYDOWN:
-        elif i.button == 3:
-            if i.pos == duck.pos:
-                pygame.display.update()
-            elif i.pos == duck_rev.pos:
-                pygame.display.update()
-                    
+        if i.type == pygame.KEYDOWN:
+            if i.button == 3:
+                if i.pos == duck.pos:
+                    duck
+                    pygame.display.update()
+                elif i.pos == duck_rev.pos:
+                duck_rev
+            pygame.display.update()
     pygame.time.delay(20)
