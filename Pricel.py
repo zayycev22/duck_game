@@ -2,10 +2,17 @@
 import pygame
 
 pygame.init()  # инициализация
-display = pygame.display.set_mode((400, 400))  # создание окна
 
 done = False
 while not done:  # главный цикл программы
-    for e in pygame.event.get():  # цикл обработки очереди событий окна
-        if e.type == pygame.QUIT:  # Обработка события "Закрытие окна"
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
             done = True
+        if event.type == pygame.KEYDOWN:
+        elif i.button == 3:
+            if i.pos == duck.pos:
+                pygame.display.update()
+            elif i.pos == duck_rev.pos:
+                pygame.display.update()
+                    
+    pygame.time.delay(20)
