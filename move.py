@@ -4,18 +4,20 @@ import os
 from pygame import *
 import threading
 
-background="Images/field.png"
-image_path2="Images/duck.png"
-teacher="Images/duck_rev.png"
-popal="Images/magic.png"
+background = "Images/field.png"
+image_path2 = "Images/duck.png"
+teacher = "Images/duck_rev.png"
+popal = "Images/magic.png"
 
 screen = pygame.display.get_surface()  # определяем поверхность для рисования
 image2 = pygame.image.load(os.path.join("Images", "field.png"))
-image2 = transform.scale(image2,(800,500))
+image2 = transform.scale(image2, (800, 500))
 text = pygame.image.load(os.path.join(popal))
-text = transform.scale(text,(800,500))
+text = transform.scale(text, (800, 500))
+
 
 class Duck:
+
     def __init__(self, pos):
 
         self.image = pygame.image.load(os.path.join("Images", "duck.png"))
@@ -24,55 +26,54 @@ class Duck:
         self.image3 = pygame.image.load(os.path.join(teacher))
         self.image3 = transform.scale(self.image3, (100, 90))
 
-        self.text=pygame.image.load(os.path.join(popal))
+        self.text = pygame.image.load(os.path.join(popal))
         self.x = pos[0]
         self.y = pos[1]
-        self.direction="right"
-        self.direction1="up"
-        self.isalive=True
+        self.direction = "right"
+        self.direction1 = "up"
+        self.is_alive = True
 
-    def update(self, speed = 4):
+    def __del__(self):
+        self.is_alive = False
 
-        if self.direction=="right":
-            self.x+=speed
-            if self.x>=745:
-                self.direction="left"
-#                self.kill()
-                #self
+    def update(self, speed):
 
+        if self.direction == "right":
+            self.x += speed
+            if self.x >= 745:
+                self.direction = "left"
 
-        if self.direction =="left":
-            self.x-= speed
-            if self.x<=15:
-                self.direction="right"
+        # self
+        if self.direction == "left":
+            self.x -= speed
+        if self.x <= 15:
+            self.direction = "right"
 
-        if self.direction1=="up":
-            self.y+=25
-            if self.y>=475:
-                self.direction1="down"
+        if self.direction1 == "up":
+            self.y += 6.25
+        if self.y >= 475:
+            self.direction1 = "down"
 
-        if self.direction1=="down":
-            self.y-=25
-            if self.y<=75:
-                self.direction1="up"
-
-
+        if self.direction1 == "down":
+            self.y -= 6.25
+        if self.y <= 75:
+            self.direction1 = "up"
 
     def update2(self):
-        if self.direction=="right":
-            self.x+=4.5
-            self.y-=2
+
+        if self.direction == "right":
+            self.x += 2.5
+            self.y -= 0.5
             if self.x >= 745:
-                self.direction="left"
+                self.direction = "left"
 
-        if self.direction =="left":
-            self.x-=4.5
-            self.y+=2
-            if self.x<=15:
-                self.direction="right"
-
+        if self.direction == "left":
+            self.x -= 2.5
+            self.y += 0.5
+        if self.x <= 15:
+            self.direction = "right"
 
     def check(self, shot):
-        if shot[0] <= self.x+40 and shot[0] >= self.x-40 and shot[1] <=self.y+35 and shot[1]>=self.y-35:
-            self.isalive=False
-            print("killed")
+        if self.x - 30 <= shot[0] <= self.x + 30 and self.y - 25 <= shot[1] <= self.y + 25:
+            self.is_alive = False
+            print("kill")
