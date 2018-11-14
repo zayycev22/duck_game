@@ -7,42 +7,61 @@ from pygame import *
 import threading
 import move
 import pricel
+
 pygame.init()  # инициализация
 display = pygame.display.set_mode((800, 500))  # создание окна
-background="Images/field.png"
-image_path2="Images/duck.png"
-teacher="Images/duck_rev.png"
-popal="Images/magic.png"
-pic1="Images/scope.png"
+background = "Images/field.png"
+image_path2 = "Images/duck.png"
+teacher = "Images/duck_rev.png"
+popal = "Images/magic.png"
+pic1 = "Images/scope.png"
+vic = "Images/vic.png"
+vs = "Images/vs.png"
 
 screen = pygame.display.get_surface()  # определяем поверхность для рисования
 image2 = pygame.image.load(os.path.join("Images", "field.png"))
-image2 = transform.scale(image2,(800,500))
+image2 = transform.scale(image2, (800, 500))
 text = pygame.image.load(os.path.join(popal))
-text = transform.scale(text,(800,500))
-scope_img=pygame.image.load(os.path.join(pic1))
-pygame.mouse.set_visible(False)
-
-
+text = transform.scale(text, (800, 500))
+vsriv = pygame.image.load(os.path.join(vs))
+vsriv = transform.scale(vsriv, (50, 50))
+scope_img = pygame.image.load(os.path.join(pic1))
+victory = pygame.image.load(os.path.join(vic))
+victory = transform.scale(victory, (480, 270))
 pric = pricel.Pricel(pygame.mouse.get_pos())
-ducks=[]
-ducks2=[]
+ducks = []
+
+# ducks2 = []
 for i in range(0, 5, 1):
-    ducks.append(move.Duck((0, random.randint(10, 450))))
-#for i in range(0, 5, 1):
- #   ducks2.append(Duck((0, random.randint(750, 450))))
-duck=move.Duck((0,100))
-duck_rev=move.Duck((0,450))
-z = 210
+    ducks.append(move.Duck((random.randint(0, 700), random.randint(0, 450))))
+
+# for i in range(0, 5, 1):
+#   ducks2.append(Duck((0, random.randint(750, 450))))
+
+duck = move.Duck((0, 100))
+duck_rev = move.Duck((750, 100))
+z = 10
 time = 90
 FPS = 30
 clock = pygame.time.Clock()
+speed = 0.2
+speed1 = 2
 pygame.mixer.init()
-sound=pygame.mixer.Sound('music/mus.ogg')
+exp = pygame.mixer.Sound("music/vsriv.wav")
+sound1 = pygame.mixer.Sound("music/vic.ogx")
+shot = pygame.mixer.Sound("music/shot.wav")
+sound = pygame.mixer.Sound('music/mus.ogg')
+reload = pygame.mixer.Sound("music/reload.ogg")
 sound.play(-1)
-check=False
-#live=move.Duck.isalive
-done=False
+check = False
+done = False
+f = 1
+v_d = 1
+v_r = 1
+v = []
+for i in range (0, 5, 1):
+    v[i] = 1
+# ammo = 5
 while not done:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
@@ -50,38 +69,74 @@ while not done:
         if e.type == pygame.KEYDOWN:
             if e.key == pygame.K_ESCAPE:
                 done = True
-        if e.type == pygame.MOUSEBUTTONDOWN:
-#            duck.move.check()
+        if f <= 0 and e.type == pygame.MOUSEBUTTONDOWN:
+            shot.play(0)
+            #            ammo -= 1
+            f = 40
             duck.check(pygame.mouse.get_pos())
-
+            duck_rev.check(pygame.mouse.get_pos())
+            for i in range(0, 5):
+                ducks[i].check(pygame.mouse.get_pos())
+                if not ducks[i].is_alive and v[i] != 0:
+                    v[i] = 0
+                    exp.play(0)
+                    screen.blit(vsriv, (ducks[i].x, ducks[i].y))
+    #    if ammo == 0:
+    #        ammo = 5
+    #        reload.play(0)
     z -= 1
-   # pic1.pos=pric
+    f -= 1
     if z <= 0:
-        check=True
+        check = True
         while time >= 0:
             time -= 1
-            screen.blit(text,(0,0))
+            screen.blit(text, (0, 0))
             pygame.display.flip()
             clock.tick(FPS)
-
-
-
-    duck.update()
-    duck_rev.update2()
-    if check==True:
-        for i in range(0, 5):
-            ducks[i].update(random.randint(2, 15))
+    pygame.mouse.set_visible(False)
+    speed += 0.01
+    if duck.is_alive:
+        duck.update(speed)
+    if duck_rev.is_alive:
+        duck_rev.update2()
+    for i in range(0, 5):
+        if ducks[i].is_alive:
+            ducks[i].update(speed)
     pric.update()
 
     screen.fill((0, 100, 100))
-    screen.blit(image2,(0, 0))
-   # screen.blit(scope_img, (0,0))
-    if check==True:
+    screen.blit(image2, (0, 0))
+
+    # screen.blit(scope_img, (0,0))
+    e = 50
+    e1 = 50
+    e2 = {50, 50, 50, 50, 50};
+    if check:
         for i in range(0, 5):
-            screen.blit(ducks[i].image, (ducks[i].x, ducks[i].y))
-           # screen.blit(ducks2[i].image, (ducks[i].x, ducks[i].y))
-    screen.blit(duck.image, (duck.x, duck.y))
-    screen.blit(duck_rev.image3,(duck_rev.x,duck_rev.y))# отрисовываем содержимое поверхности image на поверхность screen
-    screen.blit(pric.image, (pric.x, pric.y))
+            if ducks[i].is_alive:
+                screen.blit(ducks[i].image, (ducks[i].x, ducks[i].y))
+            else:
+                speed1 -= 1
+        if duck.is_alive:
+            screen.blit(duck.image, (duck.x, duck.y))
+        else:
+            e -= 1
+        #           if e > 0:
+        #                screen.blit(vsriv , (duck.x, duck.y))
+
+        if duck_rev.is_alive:
+            screen.blit(duck_rev.image3, (duck_rev.x, duck_rev.y))
+        screen.blit(pric.image, (pric.x, pric.y))
     pygame.display.flip()
     clock.tick(FPS)
+    if not done and not duck.is_alive and not duck_rev.is_alive:
+        if not ducks[0].is_alive and not ducks[1].is_alive:
+            if not ducks[2].is_alive and not ducks[3].is_alive and not ducks[4].is_alive:
+                time = 50
+                sound.stop()
+                while time >= 0:
+                    time -= 1
+                    sound1.play(1)
+                    screen.blit(victory, (0, 0))
+                    pygame.display.flip()
+                    clock.tick(FPS)
