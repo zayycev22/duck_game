@@ -73,7 +73,14 @@ class Duck:
         if self.x <= 15:
             self.direction = "right"
 
-    def check(self, shot):
-        if self.x - 30 <= shot[0] <= self.x + 30 and self.y - 25 <= shot[1] <= self.y + 25:
+    def check(self, shot, points):
+        if self.x <= shot[0] <= self.x + 60 and self.y <= shot[1] <= self.y + 50:
             self.is_alive = False
-            print("kill")
+            print("+100p")
+            points += 100
+
+    def check1(self, shot, points):
+        if self.x <= shot[0] <= self.x + 70 and self.y <= shot[1] <= self.y + 60:
+            self.is_alive = False
+            print("+200p")
+            points += 200
