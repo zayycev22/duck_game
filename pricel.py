@@ -25,5 +25,12 @@ class Pricel:
         # self.y += 10
         self.x = pos[0] - 20
         self.y = pos[1] - 20
+
+#    def shot(self, a):
+#        pos = pygame.mouse.get_pos()
+#        img = pygame.image.load(os.path.join("Images/shot.png"))
+#        if a > 0:
+#            a -= 1
+#            screen.blit
 #    def handle_mouse_move(self,pos):
 # if self.bounds.collidepoint(pos)
