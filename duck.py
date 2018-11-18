@@ -52,7 +52,7 @@ speed1 = 2
 pygame.mixer.init()
 exp = pygame.mixer.Sound("music/vsriv.wav")
 sound1 = pygame.mixer.Sound("music/vic.ogx")
-sound2 = pygame.mixer.Sound("music/Porazhenie.mp3")
+sound2 = pygame.mixer.Sound("music/prz.ogg")
 shot = pygame.mixer.Sound("music/shot.wav")
 sound = pygame.mixer.Sound('music/mus.ogg')
 reload = pygame.mixer.Sound("music/reload.ogg")
